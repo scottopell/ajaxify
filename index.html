@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { padding: 40px; }
+    </style>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <div id="elements">
+    </div>
+    <pre id="log"></pre>
+    <form action="">
+      <label>Website</label>
+      <input id="website" autocomplete="off" />
+      <br>
+      <label>Path</label>
+      <input id="path" autocomplete="off" />
+      <br>
+      <button>Send</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      var socket = io();
+      $('form').submit(function(){
+        var msg = $("#website").val() + "\t" + $("#path").val();
+        socket.emit('subscription', msg);
+        $("#log").html($("#log").html() + "\n" + "Subscribed to: " + msg);
+        $("#website").val('');
+        $("#path").val('');
+        $("#website").focus();
+        return false;
+      });
+      socket.on('update', function(msg){
+        $("#elements").append("<li>" + msg + "</li>");
+      });
+    </script>
+  </body>
+</html>
