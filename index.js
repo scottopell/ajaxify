@@ -36,11 +36,9 @@ var phantomSubscription = function(webpage, path, callback){
         console.log("opened page? ", status);
         page.evaluate(
             function (path) {
-              console.log(path);
-              return document.querySelector(path).innerText;
+              return document.querySelector(path).innerHTML;
             },
             function (result) {
-              console.log('Page title is ' + result);
               callback(result);
               ph.exit();
             },
